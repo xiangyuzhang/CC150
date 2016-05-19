@@ -41,5 +41,13 @@ int main()
 	cout << "front is " << new_Arr.front() << endl;
 	new_Arr.insert(5, "good");
 	print_all(new_Arr);
+
+	ArrayList ater_Arr;
+	ater_Arr.insert(0,"test");
+	print_all(ater_Arr);
+	ater_Arr.resize(10);
+	ater_Arr.clear();
+	cout << "capacity is:" << ater_Arr.capacity() << endl;
+	cout << "size is: " << ater_Arr.size() << endl;
 	return 0;
 }

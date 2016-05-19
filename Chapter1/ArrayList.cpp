@@ -4,13 +4,19 @@
 #include <memory>
 
 #include "ArrayList.h"
+//======================================================================================
+//拷贝控制成员函数
+
+
+
+
+
 ArrayList::ArrayList()		// 最初的Arraylist是一个size = 0的数组
 {
 	beg_ptr = new std::string[0];
 	end_ptr = beg_ptr;
 	cap_ptr = beg_ptr;
 }
-
 
 ArrayList::ArrayList(const ArrayList & old)
 {
@@ -69,6 +75,55 @@ ArrayList & ArrayList::operator=(const ArrayList &old)
 */
 ArrayList::~ArrayList() {free();}
 
+//======================================================================================
+//元素访问
+std::string & ArrayList::at(const unsigned int index) const	{return *(begin() + index);}		
+std::string & ArrayList::operator[](const unsigned int index) const {return *(begin() + index);}
+std::string & ArrayList::back() const
+{
+	if(!empty()) return *(end() - 1);
+	else std::cerr << "back: container is empty" << std::endl;
+}
+
+std::string & ArrayList::front() const
+{
+	if(!empty()) return *begin();
+	else std::cerr << "front: container is empty" << std::endl;
+}
+
+//======================================================================================
+//指针访问
+std::string * ArrayList::begin() const {return beg_ptr;}
+std::string * ArrayList::end() const {return end_ptr;}
+
+//======================================================================================
+//容量控制
+bool ArrayList::empty() const 
+{
+	if (begin() == end()) return true;
+	else return false;
+}
+const unsigned int ArrayList::size() const {return end_ptr - beg_ptr;}
+
+void ArrayList::reserve(const unsigned int & cap) 
+{
+	// 如果需要的cap大于等于目前的容量，则加倍赋予
+	if(cap >= capacity())
+		reallocate(2*cap);
+}
+
+void ArrayList::resize(const unsigned int& cap)
+{
+	if(cap > size())
+	{
+		reserve(cap);
+		end_ptr = beg_ptr + cap;		
+	}
+
+}
+const unsigned int ArrayList::capacity() const {return cap_ptr - beg_ptr;}
+//======================================================================================
+//修改器
 
 void ArrayList::push_back(const std::string & item)
 {
@@ -87,12 +142,7 @@ void ArrayList::erase(const unsigned int& index)
 	--end_ptr;
 }
 
-void ArrayList::reserve(const unsigned int & cap) 
-{
-	// 如果需要的cap大于等于目前的容量，则加倍赋予
-	if(cap >= capacity())
-		reallocate(2*cap);
-}
+
 
 std::string ArrayList::pop_back()	// 其实就是往前挪动
 {
@@ -117,27 +167,16 @@ void ArrayList::insert(const unsigned int pos, const std::string & item)
 		move_back(now);
 	*target = item;
 }
-bool ArrayList::empty() const 
-{
-	if (begin() == end()) return true;
-	else return false;
-}
-std::string & ArrayList::back() const
-{
-	if(!empty()) return *(end() - 1);
-	else std::cerr << "back: container is empty" << std::endl;
-}
 
-std::string & ArrayList::front() const
-{
-	if(!empty()) return *begin();
-	else std::cerr << "front: container is empty" << std::endl;
-}
+void ArrayList::clear(){end_ptr = beg_ptr;} // 清理size但是不清空空间
+
+
+//======================================================================================
+//私有成员函数
+
 void ArrayList::move_forward(std::string * pos){*(pos - 1) = *pos;}
 void ArrayList::move_back(std::string * pos){*(pos + 1) = *pos;}
 void ArrayList::free(){delete [] beg_ptr;}
-
-
 
 
 void ArrayList::reallocate(const unsigned int & cap)
@@ -153,9 +192,7 @@ void ArrayList::reallocate(const unsigned int & cap)
 	cap_ptr = new_beg + cap;
 }
 
-const unsigned int ArrayList::size() const {return end_ptr - beg_ptr;}
-const unsigned int ArrayList::capacity() const {return cap_ptr - beg_ptr;}
 
 
-std::string * ArrayList::begin() const {return beg_ptr;}
-std::string * ArrayList::end() const {return end_ptr;}
+
+
