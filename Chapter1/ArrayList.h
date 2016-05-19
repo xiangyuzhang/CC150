@@ -55,7 +55,7 @@ private:
 
 inline void print_all(const ArrayList& obj)
 {
-	for(unsigned int i = 0; i != obj.capacity(); ++i)
+	for(unsigned int i = 0; i != obj.size(); ++i)
 		std::cout << *(obj.beg_ptr + i) << std::endl;
 }
 

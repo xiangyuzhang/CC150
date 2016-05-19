@@ -81,7 +81,8 @@ void ArrayList::push_back(const std::string & item)
 void ArrayList::erase(const unsigned int& index)
 {
 	// 其实就是将后面的元素覆盖到前面，然后移动end
-	for(auto start = begin() + index + 1; start != end(); ++start)		// 所以start永远不会是end(),
+	auto target = index + begin();
+	for(auto start = target + 1; start != end(); ++start)		// 所以start永远不会是end(),
 		move_forward(start);
 	--end_ptr;
 }
@@ -98,7 +99,7 @@ std::string ArrayList::pop_back()
 	if(!empty())
 	{
 		auto dum = back();
-		move_forward(end_ptr);
+		--end_ptr;
 		return dum;
 	}
 	else
