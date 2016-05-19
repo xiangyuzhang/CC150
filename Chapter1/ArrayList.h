@@ -41,11 +41,12 @@ public:
 	void clear();
 	void erase(const unsigned int&);
 	void push_back(const std::string &);
-	std::string * insert(std::string*, const std::string &);		// the position of newly inserted element = (pos, value)
+	void insert(const unsigned int , const std::string &);		// the position of newly inserted element = (pos, value)
 	std::string pop_back();
 private:
 	void reallocate(const unsigned int &);			// if the desired size is smaller then current, then do nothing, else double space
 	void move_forward(std::string *);
+	void move_back(std::string *);
 	void free();									// 安全删除
 
 	std::string *beg_ptr;		// begin of the current string list

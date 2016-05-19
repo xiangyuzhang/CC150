@@ -38,7 +38,8 @@ int main()
 	cout << "size is: " << new_Arr.size() << endl;
 	cout << "back is:" << new_Arr.pop_back() << endl;
 	print_all(new_Arr);
-
-
+	cout << "front is " << new_Arr.front() << endl;
+	new_Arr.insert(5, "good");
+	print_all(new_Arr);
 	return 0;
 }

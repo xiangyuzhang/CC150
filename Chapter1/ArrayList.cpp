@@ -94,7 +94,7 @@ void ArrayList::reserve(const unsigned int & cap)
 		reallocate(2*cap);
 }
 
-std::string ArrayList::pop_back()
+std::string ArrayList::pop_back()	// 其实就是往前挪动
 {
 	if(!empty())
 	{
@@ -108,6 +108,15 @@ std::string ArrayList::pop_back()
 	}
 }
 
+void ArrayList::insert(const unsigned int pos, const std::string & item)
+{
+	reserve(size() + 1);
+	auto target = pos + beg_ptr;
+	auto now_end = end_ptr++;
+	for(auto now = now_end - 1; now >= target; --now)
+		move_back(now);
+	*target = item;
+}
 bool ArrayList::empty() const 
 {
 	if (begin() == end()) return true;
@@ -125,6 +134,7 @@ std::string & ArrayList::front() const
 	else std::cerr << "front: container is empty" << std::endl;
 }
 void ArrayList::move_forward(std::string * pos){*(pos - 1) = *pos;}
+void ArrayList::move_back(std::string * pos){*(pos + 1) = *pos;}
 void ArrayList::free(){delete [] beg_ptr;}
 
 
