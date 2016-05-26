@@ -27,12 +27,12 @@ DoubleNode<T>::~DoubleNode()
 	if(this->before != nullptr) this->before->next = this->next;
 	if(this->next != nullptr) this->next->before = this->before;
 }
-/*
+
 template <typename T>
 DoubleNode<T>::DoubleNode(DoubleNode & old):content(old.content), before(old.before), next(old.next){}
 
 template<typename T>
-DoubleNode<T> &operator=(const DoubleNode<T>& rhs)
+DoubleNode<T> &DoubleNode<T>::operator=(const DoubleNode<T>& old)
 {
 	if(this != &old)
 	{
@@ -52,7 +52,7 @@ void  DoubleNode<T>::swap(DoubleNode<T> & rhs)
 }
 
 
-*/
+
 
 
 template <typename T>
