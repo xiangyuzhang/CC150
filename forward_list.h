@@ -5,11 +5,13 @@
 template <typename T> class node
 {
 public:
-	static void swap(node &, node &);
-	node<T>* operator++() const;
+	void swap(node &);
+	node<T>& operator=(node);
 	node() = default;
+	~node() = default;
 	node(const T&);
 	node(const node&);
+	node(node &&) noexcept;
 
 	T content;
 	node<T> * next = nullptr;
@@ -24,8 +26,9 @@ public:
 //==============================================================
 //member function
 	forward_list();
+	virtual ~forward_list();
 	forward_list(const forward_list &);
-	forward_list(forward_list &&);
+	forward_list(forward_list &&) noexcept;
 	forward_list & operator=(const forward_list&);
 //==============================================================
 //element access
@@ -77,20 +80,28 @@ public:
 
 //==============================================================
 template <typename T>
-node<T>* node<T>::operator++() const{return this->next;}
+node<T>& node<T>::operator=(node<T> rhs)
+{
+	std::swap(this->content, rhs.content);
+	std::swap(this->next, rhs.next);
+	return *this;
+}
 
 template <typename T>
 node<T>::node(const T& value):content(value),next(nullptr){}
+
+template <typename T>
+node<T>::node(node<T> && value) noexcept :content(value.content), next(value.next) {value.next = nullptr;}
 
 template <typename T>
 node<T>::node(const node<T> & value):content(value.content), next(value.next){}
 
 
 template <typename T>
-void node<T>::swap(node<T> &lhs, node<T> &rhs)
+void node<T>::swap(node<T> &rhs)
 {
-	std::swap(lhs.content, rhs.content);
-	std::swap(lhs.next, rhs.next);
+	std::swap(content, rhs.content);
+	std::swap(next, rhs.next);
 }
 //==============================================================
 //==============================================================
@@ -235,9 +246,11 @@ void forward_list<T>::reverse()
 //	forward_list(forward_list &&);
 //	forward_list & operator=(forward_list);
 template <typename T>
-forward_list<T>::forward_list(const forward_list & old):head(new node<T>(old.head)), tail(new node<T>(old.tail)), size(old.size){}
+forward_list<T>::~forward_list(){free();}
 template <typename T>
-forward_list<T> & forward_list<T>::operator=(const forward_list & rhs)
+forward_list<T>::forward_list(const forward_list & old):head(old.head), tail(old.tail), size(old.size){}
+template <typename T>
+forward_list<T> & forward_list<T>::operator=(const forward_list &rhs)
 {
 	if(this != &rhs)
 	{
@@ -249,6 +262,12 @@ forward_list<T> & forward_list<T>::operator=(const forward_list & rhs)
 	return *this;
 }
 
+template <typename T>
+forward_list<T>::forward_list(forward_list && rhs) noexcept :head(rhs.head), tail(rhs.tail), size(rhs.size)
+{
+	rhs.head = nullptr;
+	rhs.tail = nullptr;
+}
 template <typename T>
 void forward_list<T>::free()
 {
