@@ -1,26 +1,29 @@
 #ifndef CC150_STACK_H
 #define CC150_STACK_H
 #include "DoubleList.h"
+
+
 template <typename T>
 class Stack
 {
 public:
 	Stack() = default;
-	~Stack() = default;
+	virtual ~Stack() = default;
 	Stack(const Stack&);
 	Stack(Stack &&) noexcept;
 	Stack & operator=(Stack);
 
-	T& top() const;
+	virtual T& top() const;
 
-	bool empty() const;
-	const unsigned size_of() const;
 
-	void push(const T&);
-	void pop();
-	void swap(Stack &);
+	virtual bool empty() const;
+	virtual const unsigned size_of() const;
 
-	void show_all();
+	virtual void push(const T&);
+	virtual void pop();
+	virtual void swap(Stack &);
+
+	virtual void show_all();
 
 private:
 	DoubleList<T> list;
