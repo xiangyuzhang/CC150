@@ -23,7 +23,7 @@ public:
 	virtual void pop();
 	virtual void swap(Stack &);
 
-	virtual void show_all();
+	virtual void show_all() const;
 
 private:
 	DoubleList<T> list;
@@ -66,7 +66,7 @@ template <typename T>
 void Stack<T>::swap(Stack & rhs) {list.swap(rhs.list);}
 
 template <typename T>
-void Stack<T>::show_all() {list.show_all();}
+void Stack<T>::show_all() const {list.show_all();}
 
 
 #endif
