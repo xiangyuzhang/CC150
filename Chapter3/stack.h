@@ -36,7 +36,7 @@ template <typename T>
 Stack<T>::Stack(const Stack& old):list(old.list){}
 
 template <typename T>
-Stack<T>::Stack(Stack && old) noexcept:list(old.list){old.~old();}
+Stack<T>::Stack(Stack && old) noexcept:list(old.list){}
 
 template <typename T>
 Stack<T> & Stack<T>::operator=(Stack rhs) {swap(rhs);}
